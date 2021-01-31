@@ -13,10 +13,9 @@ class NonAuthLayout extends Component {
   };
 
   componentDidMount() {
-    let currentage = this.capitalizeFirstLetter(this.props.location.pathname);
+    let title = this.capitalizeFirstLetter(this.props.location.pathname);
 
-    document.title =
-      currentage + " | Skote - Responsive Bootstrap 4 Admin Dashboard";
+    document.title = title + " | Twzeef Dashboard";
   }
   render() {
     return <React.Fragment>{this.props.children}</React.Fragment>;

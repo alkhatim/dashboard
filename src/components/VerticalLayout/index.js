@@ -43,10 +43,9 @@ class Layout extends Component {
 
     // Scroll Top to 0
     window.scrollTo(0, 0);
-    let currentage = this.capitalizeFirstLetter(this.props.location.pathname);
+    let title = this.capitalizeFirstLetter(this.props.location.pathname);
 
-    document.title =
-      currentage + " | Skote - Responsive Bootstrap 4 Admin Dashboard";
+    document.title = title + " | Twzeef Dashboard";
     if (this.props.leftSideBarTheme) {
       this.props.changeSidebarTheme(this.props.leftSideBarTheme);
     }

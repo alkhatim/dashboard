@@ -10,6 +10,7 @@ import store from "./store/store";
 import { loadUser } from "./store/actions/authActions";
 import "./assets/scss/theme.scss";
 import "toastr/build/toastr.min.css";
+import "./App.css";
 
 const App = () => {
   store.dispatch(loadUser());

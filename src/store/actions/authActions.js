@@ -47,6 +47,24 @@ export const loadUser = () => async (dispatch) => {
   }
 };
 
+export const loadProfile = async () => {
+  try {
+    const { data } = await http.get("/auth/my-account");
+    return data;
+  } catch (error) {
+    messages.error(error);
+  }
+};
+
+export const editProfile = async (profile) => {
+  try {
+    const { data } = await http.put("/auth/updatedetails", profile);
+    return data;
+  } catch (error) {
+    messages.error(error);
+  }
+};
+
 export const logout = () => async (dispatch) => {
   localStorage.clear();
   dispatch({

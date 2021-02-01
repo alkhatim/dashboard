@@ -64,7 +64,7 @@ const Header = () => {
             </button>
           </div>
           <div className="d-flex">
-            <h4>Twzeef Dashboard</h4>
+            <h4 style={{ color: "white" }}>Twzeef Dashboard</h4>
           </div>
           <div className="d-flex">
             <ProfileMenu />

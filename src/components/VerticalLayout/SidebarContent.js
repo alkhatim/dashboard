@@ -75,13 +75,13 @@ const SidebarContent = (props) => {
           </li>
           <li>
             <Link to="/agencies" className="waves-effect">
-              <FaBuilding size="18" style={{ marginRight: "1rem" }} />
+              <i className="bx bx-buildings"></i>
               <span>Agencies</span>
             </Link>
           </li>
           <li>
             <Link to="/users" className="waves-effect">
-              <FaUser size="18" style={{ marginRight: "1rem" }} />
+              <i className="bx bx-group"></i>
               <span>Users</span>
             </Link>
           </li>

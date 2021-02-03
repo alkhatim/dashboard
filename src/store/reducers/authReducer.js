@@ -11,7 +11,7 @@ const reducer = (state = INIT_STATE, action) => {
         user: {
           _id: action.payload._id,
           role: action.payload.role,
-          username: action.payload.username || "username",
+          userName: action.payload.userName,
         },
         isLoggedIn: true,
       };

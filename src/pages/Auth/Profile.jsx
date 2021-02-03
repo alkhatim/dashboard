@@ -1,12 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Card, CardBody, Media, Button } from "reactstrap";
-import { AvForm, AvField } from "availity-reactstrap-validation";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  CardBody,
+  Media,
+  Button,
+  Input,
+  FormGroup,
+} from "reactstrap";
+import SweetAlert from "react-bootstrap-sweetalert";
 import Breadcrumb from "../../components/Common/Breadcrumb";
-import { loadProfile } from "../../store/actions/authActions";
+import {
+  loadProfile,
+  editProfile,
+  resetPassword,
+} from "../../store/actions/authActions";
 import avatar from "../../assets/images/users/avatar-2.jpg";
 
 const UserProfile = () => {
   const [readOnly, setReadOnly] = useState(true);
+  const [resetPasswordModal, setResetPasswordModal] = useState(false);
+  const [resetPasswordDialog, setResetPasswordDialog] = useState(false);
   const [profile, setProfile] = useState({
     userName: "",
     email: "",
@@ -14,13 +30,13 @@ const UserProfile = () => {
     photo: "",
   });
   const [newProfile, setNewProfile] = useState({
-    userName: "",
     email: "",
     phoneNumber: "",
   });
-  const [password, setNewPassword] = useState({
+  const [password, setPassword] = useState({
     currentPassword: "",
     newPassword: "",
+    confirmPassword: "",
   });
 
   useEffect(() => {
@@ -31,8 +47,25 @@ const UserProfile = () => {
     fetch();
   }, []);
 
-  const handleChange = (e) => {
+  const handleProfileChange = (e) => {
     setNewProfile({ ...newProfile, [e.target.name]: e.target.value });
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword({ ...password, [e.target.name]: e.target.value });
+  };
+
+  const handleUpdateProfile = async () => {
+    const result = await editProfile(newProfile);
+    if (result) setProfile(result);
+  };
+
+  const handleResetPassword = async () => {
+    const result = await resetPassword(password);
+    if (result) {
+      setResetPasswordModal(false);
+      setResetPasswordDialog(true);
+    }
   };
 
   return (
@@ -78,40 +111,109 @@ const UserProfile = () => {
 
           <Card>
             <CardBody>
-              <AvForm className="form-horizontal" onValidSubmit={(e, v) => {}}>
-                <div className="form-group">
-                  <AvField
-                    name="email"
-                    label="Email"
-                    value={newProfile.email}
-                    className="form-control"
-                    placeholder="Enter Email"
-                    type="text"
-                    onChange={handleChange}
-                    disabled={readOnly}
-                  />
-                </div>
-                <div className="form-group">
-                  <AvField
-                    name="phoneNumber"
-                    label="Phone"
-                    value={newProfile.phoneNumber}
-                    className="form-control"
-                    placeholder="Enter Phone Number"
-                    type="text"
-                    onChange={handleChange}
-                    disabled={readOnly}
-                  />
-                </div>
-                <div className="text-center mt-4">
-                  <Button type="submit" color="success">
-                    <i className="bx bxs-edit-alt mr-1"></i>
-                    Confirm
-                  </Button>
-                </div>
-              </AvForm>
+              <FormGroup>
+                <Input
+                  name="email"
+                  label="Email"
+                  value={newProfile.email}
+                  className="form-control"
+                  placeholder="Change Email"
+                  type="text"
+                  onChange={handleProfileChange}
+                  disabled={readOnly}
+                />
+              </FormGroup>
+              <FormGroup>
+                <Input
+                  name="phoneNumber"
+                  label="Phone"
+                  value={newProfile.phoneNumber}
+                  className="form-control"
+                  placeholder="Change Phone Number"
+                  type="text"
+                  onChange={handleProfileChange}
+                  disabled={readOnly}
+                />
+              </FormGroup>
+              <div className="text-center mt-4">
+                <Button
+                  type="submit"
+                  color="success"
+                  className="mr-2"
+                  onClick={handleUpdateProfile}
+                >
+                  <i className="bx bxs-edit-alt mr-1"></i>
+                  Confirm
+                </Button>
+                <Button
+                  color="primary"
+                  onClick={() => {
+                    setResetPasswordModal(true);
+                  }}
+                  id="resetPassword"
+                >
+                  Reset Password
+                </Button>
+              </div>
             </CardBody>
           </Card>
+
+          {/* Reset password modal */}
+          <>
+            {resetPasswordModal && (
+              <SweetAlert
+                showCancel
+                title="Reset your password"
+                cancelBtnBsStyle="danger"
+                confirmBtnBsStyle="success"
+                onConfirm={handleResetPassword}
+                onCancel={() => {
+                  setResetPasswordModal(false);
+                }}
+              >
+                <FormGroup>
+                  <Input
+                    name="currentPassword"
+                    type="password"
+                    className="form-control"
+                    placeholder="Current Password"
+                    value={password.currentPassword}
+                    onChange={handlePasswordChange}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Input
+                    name="newPassword"
+                    type="password"
+                    className="form-control"
+                    placeholder="New Password"
+                    value={password.newPassword}
+                    onChange={handlePasswordChange}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Input
+                    name="confirmPassword"
+                    type="password"
+                    className="form-control"
+                    placeholder="Repeat New Password"
+                    value={password.confirmPassword}
+                    onChange={handlePasswordChange}
+                  />
+                </FormGroup>
+              </SweetAlert>
+            )}
+            {resetPasswordDialog && (
+              <SweetAlert
+                success
+                title="Password Changed Successfully"
+                onConfirm={() => {
+                  setResetPasswordDialog(false);
+                }}
+              ></SweetAlert>
+            )}
+          </>
+          {/* End of reset password modal */}
         </Container>
       </div>
     </React.Fragment>

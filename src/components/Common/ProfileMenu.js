@@ -28,7 +28,7 @@ const ProfileMenu = () => {
             alt="Header Avatar"
           />
           <span className="d-none d-xl-inline-block ml-2 mr-1">
-            {user?.username}
+            {user.userName}
           </span>
           <i className="mdi mdi-chevron-down d-none d-xl-inline-block" />
         </DropdownToggle>

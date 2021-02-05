@@ -11,13 +11,14 @@ import {
   FormGroup,
 } from "reactstrap";
 import SweetAlert from "react-bootstrap-sweetalert";
-import Breadcrumb from "../../components/Common/Breadcrumb";
+import Breadcrumb from "../../components/common/Breadcrumb";
 import {
   loadProfile,
   editProfile,
   resetPassword,
 } from "../../store/actions/authActions";
 import avatar from "../../assets/images/users/avatar-2.jpg";
+import messages from "services/messages";
 
 const UserProfile = () => {
   const [readOnly, setReadOnly] = useState(true);
@@ -57,7 +58,15 @@ const UserProfile = () => {
 
   const handleUpdateProfile = async () => {
     const result = await editProfile(newProfile);
-    if (result) setProfile(result);
+    if (result) {
+      setProfile({
+        userName: result.userName,
+        email: result.email,
+        phoneNumber: result.phoneNumber,
+        photo: result.photo,
+      });
+      messages.success("Done");
+    } 
   };
 
   const handleResetPassword = async () => {
@@ -103,7 +112,9 @@ const UserProfile = () => {
             Edit Profile
             <i
               className={
-                readOnly ? "far fa-edit ml-2 hand" : "fas fa-edit ml-2 hand"
+                readOnly
+                  ? "far fa-edit ml-2 hand"
+                  : "fas fa-edit ml-2 hand fa-lg"
               }
               onClick={() => setReadOnly(!readOnly)}
             ></i>

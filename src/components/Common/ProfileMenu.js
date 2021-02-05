@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Dropdown, DropdownToggle, DropdownMenu } from "reactstrap";
 import { Link } from "react-router-dom";
 import userAvatar from "../../assets/images/users/avatar-1.jpg";
+import { logout } from "../../store/actions/authActions";
 
 const ProfileMenu = () => {
+  const dispatch = useDispatch();
+
   const user = useSelector((store) => store.auth.user);
   const [menu, setMenu] = useState(false);
 
@@ -38,10 +41,10 @@ const ProfileMenu = () => {
             <span>Profile</span>
           </Link>
           <div className="dropdown-divider" />
-          <Link to="/logout" className="dropdown-item">
+          <button className="dropdown-item" onClick={() => dispatch(logout())}>
             <i className="bx bx-power-off font-size-16 align-middle mr-1 text-danger" />
             <span>Logout</span>
-          </Link>
+          </button>
         </DropdownMenu>
       </Dropdown>
     </React.Fragment>

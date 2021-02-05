@@ -4,7 +4,7 @@ import { BrowserRouter, Switch } from "react-router-dom";
 import { privateRoutes, publicRoutes } from "./routes/Routes";
 import PrivateRoute from "./routes/PrivateRoute";
 import PublicRoute from "./routes/PublicRoute";
-import VerticalLayout from "./components/VerticalLayout/";
+import VerticalLayout from "./components/verticalLayout";
 import NonAuthLayout from "./components/NonAuthLayout";
 import store from "./store/store";
 import { loadUser } from "./store/actions/authActions";

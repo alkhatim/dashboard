@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, useLocation } from "react-router-dom";
 import { login } from "../../store/actions/authActions";
 import { Row, Col, CardBody, Card, Alert, Container } from "reactstrap";
 import { Link } from "react-router-dom";
@@ -10,6 +10,7 @@ import logo from "assets/images/logo.svg";
 
 const Login = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const { isLoggedIn } = useSelector((store) => store.auth);
 
@@ -24,7 +25,7 @@ const Login = () => {
   };
 
   return isLoggedIn ? (
-    <Redirect to="/dashboard" />
+    <Redirect to={location.state.from || "/dashboard"} />
   ) : (
     <React.Fragment>
       <div className="home-btn d-none d-sm-block">

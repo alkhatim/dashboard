@@ -59,7 +59,7 @@ export const loadProfile = async () => {
 export const editProfile = async (profile) => {
   try {
     const { data } = await http.put("/auth/updatedetails", profile);
-    return data;
+    return data.data;
   } catch (error) {
     messages.error(error);
   }

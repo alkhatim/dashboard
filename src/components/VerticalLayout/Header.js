@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import ProfileMenu from "../Common/ProfileMenu";
+import ProfileMenu from "../common/ProfileMenu";
 import logo from "../../assets/images/logo.svg";
 import logoLightPng from "../../assets/images/logo-light.png";
 import logoLightSvg from "../../assets/images/logo-light.svg";

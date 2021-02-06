@@ -18,7 +18,7 @@ class NonAuthLayout extends Component {
     document.title = title + " | Twzeef Dashboard";
   }
   render() {
-    return <React.Fragment>{this.props.children}</React.Fragment>;
+    return <>{this.props.children}</>;
   }
 }
 

@@ -16,7 +16,7 @@ const Agencies = () => {
   }, []);
 
   return (
-    <React.Fragment>
+    <>
       <div className="page-content">
         <Container fluid>
           <Breadcrumbs title="Agencies" breadcrumbItem="Agencies" />
@@ -32,7 +32,7 @@ const Agencies = () => {
           </Row>
         </Container>
       </div>
-    </React.Fragment>
+    </>
   );
 };
 

@@ -71,7 +71,7 @@ class Layout extends Component {
 
   render() {
     return (
-      <React.Fragment>
+      <>
         <div id="preloader">
           <div id="status">
             <div className="spinner-chase">
@@ -95,7 +95,7 @@ class Layout extends Component {
           <div className="main-content">{this.props.children}</div>
           <Footer />
         </div>
-      </React.Fragment>
+      </>
     );
   }
 }

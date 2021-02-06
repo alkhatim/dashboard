@@ -1,183 +1,79 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import { Card, CardBody, Col, Container, Row } from "reactstrap";
-import paginationFactory, {
-  PaginationListStandalone,
-  PaginationProvider,
-} from "react-bootstrap-table2-paginator";
-import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
-import BootstrapTable from "react-bootstrap-table-next";
+import { useParams } from "react-router-dom";
+import { Container } from "reactstrap";
+import SweetAlert from "react-bootstrap-sweetalert";
 import Breadcrumbs from "../../components/common/Breadcrumb";
-import { getAgencyUsers } from "../../store/actions/agencyActions";
-
-const columns = [
-  {
-    dataField: "photo",
-    text: "#",
-    formatter: (cellContent, user) => (
-      <>
-        {!user.photo ? (
-          <div className="avatar-xs">
-            <span className="avatar-title rounded-circle">
-              {user.userName.charAt(0)}
-            </span>
-          </div>
-        ) : (
-          <div>
-            <img className="rounded-circle avatar-xs" src={user.photo} alt="" />
-          </div>
-        )}
-      </>
-    ),
-  },
-  {
-    text: "Username",
-    dataField: "userName",
-    sort: true,
-    formatter: (cellContent, user) => (
-      <>
-        <h5 className="font-size-14 mb-1">
-          <Link to="#" className="text-dark">
-            {user.userName}
-          </Link>
-        </h5>
-        <p className="text-muted mb-0">{user.role}</p>
-      </>
-    ),
-  },
-  {
-    dataField: "email",
-    text: "Email",
-    sort: true,
-  },
-  {
-    dataField: "phoneNumber",
-    text: "Phone",
-    sort: true,
-  },
-  {
-    dataField: "actions",
-    isDummyField: true,
-    text: "Actions",
-    formatter: (cellContent, user) => (
-      <ul className="list-inline font-size-20 contact-links mb-0">
-        <li className="list-inline-item px-2">
-          <Link>
-            <i className="bx bxs-edit" />
-          </Link>
-        </li>
-        <li className="list-inline-item px-2">
-          <Link>
-            <i className="bx bx-trash" />
-          </Link>
-        </li>
-      </ul>
-    ),
-  },
-];
+import UsersTable from "./components/UsersTable";
+import { getAgencyUsers, deleteUser } from "../../store/actions/agencyActions";
 
 const AgencyUsers = () => {
   const params = useParams();
-
   const [users, setUsers] = useState([]);
-  const [tableData, setTableData] = useState([]);
-
-  const { SearchBar } = Search;
+  const [deletedUser, setDeletedUser] = useState("");
+  const [deleteDialog, setDeleteDialog] = useState(false);
+  const [deleteSuccessDialog, setDeleteSuccessDialog] = useState(false);
 
   useEffect(() => {
     const fetch = async () => {
       const result = await getAgencyUsers(params.id);
       setUsers(result);
-      setTableData(result);
     };
     fetch();
   }, [params]);
 
-  const handleFilter = (type, { page, searchText }) => {
-    setTableData(
-      users.filter((user) =>
-        Object.keys(user).some((key) =>
-          user[key].toString().toLowerCase().includes(searchText.toLowerCase())
-        )
-      )
-    );
-  };
+  const handleDeleteAttemp = async (id) => {
+    setDeletedUser(id);
+    setDeleteDialog(true);
+  };;
+
+  const handleDelete = async () => {
+    const result = await deleteUser(deletedUser);
+    if (result) {
+      setDeleteSuccessDialog(true);
+      setUsers(users.filter((usr) => usr._id !== deletedUser));
+      setDeletedUser("");;
+    }
+    setDeleteDialog(false);
+  };;
 
   return (
-    <React.Fragment>
+    <>
       <div className="page-content">
         <Container fluid>
           <Breadcrumbs title="Agencies" breadcrumbItem="Users" />
 
-          <Row>
-            <Col lg="12">
-              <Card>
-                <CardBody>
-                  <PaginationProvider
-                    pagination={paginationFactory({
-                      sizePerPage: 10,
-                      totalSize: users.length,
-                      custom: true,
-                    })}
-                  >
-                    {({ paginationProps, paginationTableProps }) => (
-                      <ToolkitProvider
-                        keyField="id"
-                        data={tableData}
-                        columns={columns}
-                        bootstrap4
-                        search
-                      >
-                        {(toolkitProps) => (
-                          <React.Fragment>
-                            <Row className="mb-2">
-                              <Col sm="4">
-                                <div className="search-box mr-2 mb-2 d-inline-block">
-                                  <div className="position-relative">
-                                    <SearchBar {...toolkitProps.searchProps} />
-                                    <i className="bx bx-search-alt search-icon" />
-                                  </div>
-                                </div>
-                              </Col>
-                            </Row>
-                            <Row>
-                              <Col xl="12">
-                                <div className="table-responsive">
-                                  <BootstrapTable
-                                    responsive
-                                    remote
-                                    bordered={false}
-                                    striped={false}
-                                    classes={
-                                      "table table-centered table-nowrap"
-                                    }
-                                    headerWrapperClasses={"thead-light"}
-                                    {...toolkitProps.baseProps}
-                                    onTableChange={handleFilter}
-                                    {...paginationTableProps}
-                                  />
-                                </div>
-                              </Col>
-                            </Row>
-                            <Row className="align-items-md-center mt-30">
-                              <Col className="pagination pagination-rounded justify-content-center mb-2 inner-custom-pagination">
-                                <PaginationListStandalone
-                                  {...paginationProps}
-                                />
-                              </Col>
-                            </Row>
-                          </React.Fragment>
-                        )}
-                      </ToolkitProvider>
-                    )}
-                  </PaginationProvider>
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
+          <UsersTable users={users} onDelete={handleDeleteAttemp} />
+
+          {/* Delete dialog */}
+          {deleteDialog && (
+            <SweetAlert
+              title="Are you sure?"
+              warning
+              showCancel
+              confirmBtnBsStyle="success"
+              cancelBtnBsStyle="danger"
+              onConfirm={handleDelete}
+              onCancel={() => {
+                setDeleteDialog(false);
+              }}
+            >
+              You won't be able to revert this!
+            </SweetAlert>
+          )}
+
+          {deleteSuccessDialog && (
+            <SweetAlert
+              success
+              title="Deleted Successfully"
+              onConfirm={() => {
+                setDeleteSuccessDialog(false);
+              }}
+            ></SweetAlert>
+          )}
+          {/* End of delete dialog */}
         </Container>
       </div>
-    </React.Fragment>
+    </>
   );
 };
 

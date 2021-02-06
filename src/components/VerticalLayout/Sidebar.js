@@ -8,7 +8,7 @@ const Sidebar = () => {
   const layout = useSelector((store) => store.layout);
 
   return (
-    <React.Fragment>
+    <>
       <div className="vertical-menu">
         <div data-simplebar className="h-100">
           {layout.type !== "condensed" ? (
@@ -20,7 +20,7 @@ const Sidebar = () => {
           )}
         </div>
       </div>
-    </React.Fragment>
+    </>
   );
 };
 

@@ -64,7 +64,7 @@ const SidebarContent = (props) => {
   }
 
   return (
-    <React.Fragment>
+    <>
       <div id="sidebar-menu">
         <ul className="metismenu list-unstyled" id="side-menu">
           <li>
@@ -87,7 +87,7 @@ const SidebarContent = (props) => {
           </li>
         </ul>
       </div>
-    </React.Fragment>
+    </>
   );
 };
 

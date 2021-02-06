@@ -28,7 +28,7 @@ const Header = () => {
     }
   }
   return (
-    <React.Fragment>
+    <>
       <header id="page-topbar">
         <div className="navbar-header">
           <div className="d-flex">
@@ -71,7 +71,7 @@ const Header = () => {
           </div>
         </div>
       </header>
-    </React.Fragment>
+    </>
   );
 };
 

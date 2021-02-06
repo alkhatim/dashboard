@@ -66,7 +66,7 @@ const UserProfile = () => {
         photo: result.photo,
       });
       messages.success("Done");
-    } 
+    }
   };
 
   const handleResetPassword = async () => {
@@ -78,7 +78,7 @@ const UserProfile = () => {
   };
 
   return (
-    <React.Fragment>
+    <>
       <div className="page-content">
         <Container fluid>
           <Breadcrumb title="Profile" breadcrumbItem="Profile" />
@@ -227,7 +227,7 @@ const UserProfile = () => {
           {/* End of reset password modal */}
         </Container>
       </div>
-    </React.Fragment>
+    </>
   );
 };
 

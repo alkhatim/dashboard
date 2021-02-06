@@ -14,7 +14,7 @@ const ProfileMenu = () => {
   useEffect(() => {}, []);
 
   return (
-    <React.Fragment>
+    <>
       <Dropdown
         isOpen={menu}
         toggle={() => setMenu(!menu)}
@@ -47,7 +47,7 @@ const ProfileMenu = () => {
           </button>
         </DropdownMenu>
       </Dropdown>
-    </React.Fragment>
+    </>
   );
 };
 

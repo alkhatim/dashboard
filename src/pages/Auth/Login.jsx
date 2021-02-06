@@ -17,7 +17,7 @@ const Login = () => {
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
-    remeberMe: false,
+    remeberMe: true,
   });
 
   const handleChange = (e) => {
@@ -27,7 +27,7 @@ const Login = () => {
   return isLoggedIn ? (
     <Redirect to={location.state.from || "/dashboard"} />
   ) : (
-    <React.Fragment>
+    <>
       <div className="home-btn d-none d-sm-block">
         <Link to="/" className="text-dark">
           <i className="fas fa-home h2" />
@@ -132,7 +132,7 @@ const Login = () => {
           </Row>
         </Container>
       </div>
-    </React.Fragment>
+    </>
   );
 };
 

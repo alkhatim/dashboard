@@ -29,3 +29,12 @@ export const getAgencyUsers = async (id) => {
     return [];
   }
 };
+
+export const deleteUser = async (id) => {
+  try {
+    await http.delete(`/users/${id}`);
+    return true;
+  } catch (error) {
+    messages.error(error);
+  }
+};

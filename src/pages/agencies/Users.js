@@ -4,37 +4,37 @@ import { Container } from "reactstrap";
 import SweetAlert from "react-bootstrap-sweetalert";
 import Breadcrumbs from "../../components/common/Breadcrumb";
 import UsersTable from "./components/UsersTable";
-import { getAgencyUsers, deleteUser } from "../../store/actions/agencyActions";
+import { getUsers, deleteUser } from "../../store/actions/agencyActions";
 
 const AgencyUsers = () => {
   const params = useParams();
   const [users, setUsers] = useState([]);
-  const [deletedUser, setDeletedUser] = useState("");
+  const [selectedUser, setSelectedUser] = useState("");
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [deleteSuccessDialog, setDeleteSuccessDialog] = useState(false);
 
   useEffect(() => {
     const fetch = async () => {
-      const result = await getAgencyUsers(params.id);
+      const result = await getUsers(params.id);
       setUsers(result);
     };
     fetch();
   }, [params]);
 
   const handleDeleteAttemp = async (id) => {
-    setDeletedUser(id);
+    setSelectedUser(id);
     setDeleteDialog(true);
-  };;
+  };
 
   const handleDelete = async () => {
-    const result = await deleteUser(deletedUser);
+    const result = await deleteUser(selectedUser);
     if (result) {
       setDeleteSuccessDialog(true);
-      setUsers(users.filter((usr) => usr._id !== deletedUser));
-      setDeletedUser("");;
+      setUsers(users.filter((usr) => usr._id !== selectedUser));
+      setSelectedUser("");
     }
     setDeleteDialog(false);
-  };;
+  };
 
   return (
     <>

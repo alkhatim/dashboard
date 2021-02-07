@@ -4,16 +4,18 @@ import Login from "../pages/auth/Login";
 import Dashboard from "../pages/Dashboard";
 import Profile from "../pages/auth/Profile";
 import Agencies from "../pages/agencies/Agencies";
-import AgencyUsers from "../pages/agencies/AgencyUsers";
-import AgencyDetails from "../pages/agencies/AgencyDetails";
+import Users from "../pages/agencies/Users";
+import User from "../pages/agencies/User";
+import Agency from "../pages/agencies/Agency";
 
 const privateRoutes = [
   { path: "/", exact: true, component: () => <Redirect to="/dashboard" /> },
   { path: "/dashboard", component: Dashboard },
   { path: "/profile", component: Profile },
   { path: "/agencies", component: Agencies },
-  { path: "/agencies/:id/users", component: AgencyUsers },
-  { path: "/agencies/:id/details", component: AgencyDetails },
+  { path: "/agencies/:id/users", component: Users },
+  { path: "/agencies/users/:id", component: User },
+  { path: "/agencies/:id/details", component: Agency },
 ];
 
 const publicRoutes = [{ path: "/login", component: Login }];

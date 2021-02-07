@@ -43,9 +43,8 @@ class Layout extends Component {
 
     // Scroll Top to 0
     window.scrollTo(0, 0);
-    let title = this.capitalizeFirstLetter(this.props.location.pathname);
 
-    document.title = title + " | Twzeef Dashboard";
+    document.title = "Twzeef Dashboard";
     if (this.props.leftSideBarTheme) {
       this.props.changeSidebarTheme(this.props.leftSideBarTheme);
     }

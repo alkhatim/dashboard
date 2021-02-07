@@ -1,38 +1,52 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row } from "reactstrap";
+import { useSelector, useDispatch } from "react-redux";
+import { Container, Row, Col } from "reactstrap";
 import Breadcrumbs from "../../components/common/Breadcrumb";
 import AgencyCard from "./components/AgencyCard";
 import { getAgencies } from "../../store/actions/agencyActions";
 
 const Agencies = () => {
-  const [agencies, setAgencies] = useState([]);
+  const dispatch = useDispatch();
+  
+  const {agencies} = useSelector(store => store.agencies);
+  const [seeMore, setSeeMore] = useState(false);
 
   useEffect(() => {
-    const fetch = async () => {
-      const result = await getAgencies();
-      setAgencies(result);
-    };
-    fetch();
+    dispatch(getAgencies())
   }, []);
 
-  return (
-    <>
-      <div className="page-content">
-        <Container fluid>
-          <Breadcrumbs title="Agencies" breadcrumbItem="Agencies" />
+  const data = agencies.slice(0, seeMore ? undefined : 8);
 
-          <Row>
-            {agencies.length ? (
-              agencies.map((agency) => (
-                <AgencyCard agency={agency} key={agency._id} />
-              ))
-            ) : (
-              <h4 style={{ padding: 20 }}>No Data</h4>
-            )}
-          </Row>
-        </Container>
-      </div>
-    </>
+  return (
+    <div className="page-content">
+      <Container fluid>
+        <Breadcrumbs title="Agencies" breadcrumbItem="All Agencies" />
+
+        <Row>
+          {agencies.length ? (
+            data.map((agency) => (
+              <AgencyCard agency={agency} key={agency._id} />
+            ))
+          ) : (
+            <h4 style={{ padding: 20 }}>No Data</h4>
+          )}
+        </Row>
+
+        {!seeMore && agencies.length !== 0 && agencies.length !== data.length && (
+            <Row>
+              <Col xs="12">
+                <div
+                  className="text-center text-success hand my-3"
+                  onClick={() => setSeeMore(true)}
+                >
+                  <i className="bx bx-hourglass bx-spin mr-2" />
+                  See more
+                </div>
+              </Col>
+            </Row>
+          )}
+      </Container>
+    </div>
   );
 };
 

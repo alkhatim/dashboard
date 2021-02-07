@@ -7,19 +7,23 @@ import paginationFactory, {
 } from "react-bootstrap-table2-paginator";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import BootstrapTable from "react-bootstrap-table-next";
+const PAGE_SIZE = 8;
 
 const UsersTable = ({ users, onDelete }) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    setData(users);
+    handleFilter("", { page: 1, searchText: "" });
   }, [users]);
 
   const { SearchBar } = Search;
 
   const handleFilter = (type, { page, searchText }) => {
+    const startIndex = (page - 1) * PAGE_SIZE;
+    const lastIndex = startIndex + PAGE_SIZE;
+    const paged = users.slice(startIndex, lastIndex);
     setData(
-      users.filter((user) =>
+      paged.filter((user) =>
         Object.keys(user).some((key) =>
           user[key].toString().toLowerCase().includes(searchText.toLowerCase())
         )
@@ -79,7 +83,12 @@ const UsersTable = ({ users, onDelete }) => {
       formatter: (cellContent, user) => (
         <ul className="list-inline font-size-20 contact-links mb-0">
           <li className="list-inline-item px-2">
-            <Link to={`/agencies/users/${user._id}`}>
+            <Link
+              to={{
+                pathname: `/agencies/users/${user._id}`,
+                state: { user },
+              }}
+            >
               <i className="bx bxs-edit" />
             </Link>
           </li>
@@ -102,7 +111,7 @@ const UsersTable = ({ users, onDelete }) => {
             <CardBody>
               <PaginationProvider
                 pagination={paginationFactory({
-                  sizePerPage: 10,
+                  sizePerPage: PAGE_SIZE,
                   totalSize: users.length,
                   custom: true,
                 })}

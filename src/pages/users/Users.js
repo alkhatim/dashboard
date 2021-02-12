@@ -4,7 +4,7 @@ import { Container } from "reactstrap";
 import SweetAlert from "react-bootstrap-sweetalert";
 import Breadcrumbs from "../../components/common/Breadcrumb";
 import UsersTable from "./components/UsersTable";
-import { getUsers, deleteUser } from "../../store/actions/agencyActions";
+import { getUsers, deleteUser } from "../../store/actions/userActions";
 
 const AgencyUsers = () => {
   const params = useParams();

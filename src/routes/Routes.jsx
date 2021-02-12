@@ -4,9 +4,10 @@ import Login from "../pages/auth/Login";
 import Dashboard from "../pages/Dashboard";
 import Profile from "../pages/auth/Profile";
 import Agencies from "../pages/agencies/Agencies";
-import Users from "../pages/agencies/Users";
-import User from "../pages/agencies/User";
+import Users from "../pages/users/Users";
+import User from "../pages/users/User";
 import Agency from "../pages/agencies/Agency";
+import AgencyStats from "../pages/agencies/AgencyStats";
 
 const privateRoutes = [
   { path: "/", exact: true, component: () => <Redirect to="/dashboard" /> },
@@ -15,7 +16,8 @@ const privateRoutes = [
   { path: "/agencies", component: Agencies },
   { path: "/agencies/:id/users", component: Users },
   { path: "/agencies/users/:id", component: User },
-  { path: "/agencies/:id/details", component: Agency },
+  { path: "/agencies/:id/edit", component: Agency },
+  { path: "/agencies/:id/stats", component: AgencyStats },
 ];
 
 const publicRoutes = [{ path: "/login", component: Login }];

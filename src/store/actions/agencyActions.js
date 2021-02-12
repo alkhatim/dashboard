@@ -19,29 +19,10 @@ export const getAgency = async (id) => {
   }
 };
 
-export const getUsers = async (id) => {
+export const editAgency = async (id, agency) => {
   try {
-    const { data } = await http.get(`/agencies/users/${id}`);
+    const { data } = await http.put(`/agencies/${id}`, agency);
     return data.data;
-  } catch (error) {
-    messages.error(error);
-    return [];
-  }
-};
-
-export const getUser = async (id) => {
-  try {
-    const { data } = await http.get(`/users/${id}`);
-    return data.data;
-  } catch (error) {
-    messages.error(error);
-  }
-};
-
-export const deleteUser = async (id) => {
-  try {
-    await http.delete(`/users/${id}`);
-    return true;
   } catch (error) {
     messages.error(error);
   }

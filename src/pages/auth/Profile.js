@@ -15,7 +15,7 @@ import Breadcrumb from "../../components/common/Breadcrumb";
 import {
   loadProfile,
   editProfile,
-  resetPassword,
+  updatePassword,
 } from "../../store/actions/authActions";
 import avatar from "../../assets/images/users/avatar-2.jpg";
 import messages from "services/messages";
@@ -70,7 +70,7 @@ const UserProfile = () => {
   };
 
   const handleResetPassword = async () => {
-    const result = await resetPassword(password);
+    const result = await updatePassword(password);
     if (result) {
       setResetPasswordModal(false);
       setResetPasswordDialog(true);

@@ -36,7 +36,13 @@ const AgencyCard = ({ agency }) => {
             )}
 
             <h5 className="font-size-15">
-              <Link to="#" className="text-dark">
+              <Link
+                to={{
+                  pathname: `/agencies/${agency._id}/details`,
+                  state: { agency },
+                }}
+                className="text-dark"
+              >
                 {agency.name}
               </Link>
             </h5>
@@ -63,7 +69,22 @@ const AgencyCard = ({ agency }) => {
                 </Link>
               </div>
               <div className="flex-fill">
-                <Link to={`/agencies/${agency._id}/details`}>
+                <Link
+                  to={{
+                    pathname: `/agencies/${agency._id}/edit`,
+                    state: { agency },
+                  }}
+                >
+                  <i className="bx bx-edit-alt" />
+                </Link>
+              </div>
+              <div className="flex-fill">
+                <Link
+                  to={{
+                    pathname: `/agencies/${agency._id}/stats`,
+                    state: { agency },
+                  }}
+                >
                   <i className="bx bx-info-circle" />
                 </Link>
               </div>

@@ -80,9 +80,15 @@ const SidebarContent = (props) => {
             </Link>
           </li>
           <li>
-            <Link to="/users" className="waves-effect">
-              <i className="bx bx-group"></i>
-              <span>Users</span>
+            <Link to="/audit" className="waves-effect">
+              <i className="bx bx-stats"></i>
+              <span>Audit</span>
+            </Link>
+          </li>
+          <li>
+            <Link to="/settings" className="waves-effect">
+              <i className="bx bx-slider-alt"></i>
+              <span>Settings</span>
             </Link>
           </li>
         </ul>

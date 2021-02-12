@@ -1,4 +1,5 @@
 import axios from "axios";
+import messages from "../services/messages";
 
 const token =
   localStorage.getItem("token") || localStorage.getItem("tempToken");
@@ -22,28 +23,6 @@ const defaultHeader = () => {
     }
   );
 };
-
-http.interceptors.response.use(null, (error) => {
-  if (
-    error.request.responseType === "blob" &&
-    error.message === "Network Error"
-  ) {
-    return;
-  }
-  console.log(error);
-  const expectedError =
-    error.response &&
-    error.response.status >= 400 &&
-    error.response.status < 500;
-
-  if (!expectedError) {
-    toast.error("خطأ في الاتصال الرجاء المحاولة لاحقا", {
-      position: toast.POSITION.TOP_RIGHT,
-      autoClose: 5000,
-    });
-  }
-  return Promise.reject(error);
-});
 
 export default {
   defaultHeader,

@@ -65,7 +65,7 @@ export const editProfile = async (profile) => {
   }
 };
 
-export const resetPassword = async (password) => {
+export const updatePassword = async (password) => {
   try {
     const { data } = await http.put("/auth/updatepassword", password);
     return data;

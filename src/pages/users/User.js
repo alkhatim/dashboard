@@ -13,22 +13,48 @@ import {
   Form,
   Input,
 } from "reactstrap";
+import messages from "services/messages";
+import SweetAlert from "react-bootstrap-sweetalert";
 import Breadcrumbs from "../../components/common/Breadcrumb";
-import { getUser } from "../../store/actions/agencyActions";
+import {
+  getUser,
+  editUser,
+  resetUserPassword,
+} from "../../store/actions/userActions";
 
 const User = () => {
   const location = useLocation();
   const params = useParams();
 
+  const [resetPasswordModal, setResetPasswordModal] = useState(false);
+  const [resetPasswordDialog, setResetPasswordDialog] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
+
   const [user, setUser] = useState({
     userName: "",
     email: "",
     phoneNumber: "",
-    photo: "",
   });
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async () => {
+    const result = await editUser(params.id, user);
+    if (result) {
+      setUser(result);
+      messages.success("Changed Successfuly");
+    }
+  };
+
+  const handleResetPassword = async () => {
+    const result = await resetUserPassword(params.id);
+    if (result) {
+      setResetPasswordModal(false);
+      setResetPasswordDialog(true);
+      setNewPassword(result.password);
+    }
   };
 
   useEffect(() => {
@@ -105,11 +131,20 @@ const User = () => {
                       <Col sm={9}>
                         <div>
                           <Button
-                            type="submit"
                             color="success"
-                            className="w-md"
+                            className="w-md mr-2"
+                            onClick={handleSubmit}
                           >
                             Confirm
+                          </Button>
+                          <Button
+                            color="primary"
+                            onClick={() => {
+                              setResetPasswordModal(true);
+                            }}
+                            id="resetPassword"
+                          >
+                            Reset Password
                           </Button>
                         </div>
                       </Col>
@@ -119,6 +154,36 @@ const User = () => {
               </Card>
             </Col>
           </Row>
+
+          {/* Reset password modal */}
+          <>
+            {resetPasswordModal && (
+              <SweetAlert
+                title="Are you sure?"
+                warning
+                showCancel
+                confirmButtonText="Yes, reset it!"
+                confirmBtnBsStyle="success"
+                cancelBtnBsStyle="danger"
+                onConfirm={handleResetPassword}
+                onCancel={() => setResetPasswordModal(false)}
+              >
+                You won't be able to revert this!
+              </SweetAlert>
+            )}
+            {resetPasswordDialog && (
+              <SweetAlert
+                success
+                title="Password was reset Successfully"
+                onConfirm={() => {
+                  setResetPasswordDialog(false);
+                }}
+              >
+                <h5>New Password: {newPassword}</h5>
+              </SweetAlert>
+            )}
+          </>
+          {/* End of reset password modal */}
         </Container>
         {/* container-fluid */}
       </div>

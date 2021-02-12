@@ -2,6 +2,12 @@
   cursor: pointer;
 }
 
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /* Font size */
 .bold-text {
   font-weight: 600 !important;

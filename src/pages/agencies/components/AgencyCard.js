@@ -4,10 +4,9 @@ import { Card, CardBody, CardFooter, Col } from "reactstrap";
 
 const AgencyCard = ({ agency }) => {
   const badges = [
+    agency.fixedPhoneNumber,
     agency.phoneNumber,
     agency.phoneNumber2,
-    agency.phoneNumber3,
-    agency.fixedPhoneNumber,
   ];
 
   return (
